@@ -1,18 +1,24 @@
-# Usar una imagen base de Python
+# Imagen base de Odoo 16
 FROM odoo:16.0
 
-# Instalar dependencias adicionales si es necesario
+# Cambiar al usuario root para instalar paquetes
+USER root
+
+# Instalar dependencias necesarias
 RUN apt-get update && apt-get install -y \
     libldap2-dev \
     libsasl2-dev \
     gcc \
     && rm -rf /var/lib/apt/lists/*
 
-# Establecer el directorio de trabajo
+# Regresar al usuario de Odoo (odoo)
+USER odoo
+
+# Establecer directorio de trabajo
 WORKDIR /mnt/extra-addons
 
-# Copiar el código del repositorio (si es necesario)
+# Copiar código fuente si aplica
 COPY . /mnt/extra-addons
 
-# Configuración adicional si es necesario
+# Comando por defecto
 CMD ["odoo"]
